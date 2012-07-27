@@ -7,7 +7,7 @@ use DBM::Deep;
 use IPC::Cmd qw/run/;
 use autodie;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {

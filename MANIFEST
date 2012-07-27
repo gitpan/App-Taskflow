@@ -1,5 +1,6 @@
 Changes
 lib/App/Taskflow.pm
+bin/taskflow
 Makefile.PL
 MANIFEST			This list of files
 README
