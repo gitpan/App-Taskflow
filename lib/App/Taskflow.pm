@@ -7,7 +7,7 @@ use DBM::Deep;
 use IPC::Cmd qw/run/;
 use autodie;
 
-our $VERSION = '0.3';
+our $VERSION = '0.4';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
@@ -146,7 +146,7 @@ For a complete documentation of `taskflow`,  see its POD.
 
 =head1 VERSION
 
-Version 0.1
+Version 0.4
 
 =cut
 

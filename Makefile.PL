@@ -1,7 +1,22 @@
-use 5.006;
+#! perl
+
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use Config;
+
+my @scripts = qw( taskflow );
+my $usrbin = "/usr/bin";
+my $installscript = $Config{installscript};
+
+print STDERR <<EOF unless $installscript eq $usrbin;
+
+WARNING: This Makefile will install user accessible scripts.
+The location for these scripts is $installscript.
+You may consider to pass INSTALLSCRIPT=$usrbin (or some other
+convenient location) to "make install".
+
+EOF
 
 WriteMakefile(
     NAME                => 'App::Taskflow',
@@ -12,6 +27,7 @@ WriteMakefile(
       ? ('LICENSE'=> 'perl')
       : ()),
     PL_FILES            => {},
+    EXE_FILES		=> [ map { "bin/$_" } @scripts ],
     PREREQ_PM => {
         'Test::More'   => 0,
         'Log::Handler' => 0,
