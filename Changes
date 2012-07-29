@@ -1,8 +1,9 @@
 Revision history for App-Taskflow
+0.3   2012-07-29
+      dependencies added
 
-0.02    taskflow
-        main module missing - added
+0.2   2012-07-27
+      main module missing - added
 
-0.01    Date/time
-        First version, released on an unsuspecting world.
-
+0.1   2012-07-27
+      First version, released on an unsuspecting world.

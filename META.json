@@ -1,10 +1,10 @@
 {
-   "abstract" : "is the helper library for `taskflow`, a simple command-",
+   "abstract" : "a file-based taskflow system",
    "author" : [
       "Farhad Fouladi <farhad@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150",
    "license" : [
       "perl_5"
    ],
@@ -22,20 +22,23 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "0"
+            "ExtUtils::MakeMaker" : 0
          }
       },
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "0"
+            "ExtUtils::MakeMaker" : 0
          }
       },
       "runtime" : {
          "requires" : {
-            "Test::More" : "0"
+            "DBM::Deep" : 0,
+            "IPC::Cmd" : 0,
+            "Log::Handler" : 0,
+            "Test::More" : 0
          }
       }
    },
    "release_status" : "stable",
-   "version" : "0.2"
+   "version" : "0.3"
 }

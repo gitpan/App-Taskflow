@@ -7,7 +7,7 @@ use DBM::Deep;
 use IPC::Cmd qw/run/;
 use autodie;
 
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
@@ -137,12 +137,12 @@ sub usage   { system("perldoc $0"); exit 0; }
 __END__
 =head1 NAME
 
-App::Taskflow - is the helper library for `taskflow`, a simple command-
-line program for a file-based taskflow system
+App::Taskflow - a file-based taskflow system
 
-No user-serviceable parts inside. Use `taskflow` only.
+This module is the helper library for `taskflow`. No user-serviceable parts
+inside. Use `taskflow` only.
 
-For a complete documentation of `taskflow`  see its POD.
+For a complete documentation of `taskflow`,  see its POD.
 
 =head1 VERSION
 
