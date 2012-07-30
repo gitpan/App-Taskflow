@@ -7,7 +7,7 @@ use DBM::Deep;
 use IPC::Cmd qw/run/;
 use autodie;
 
-our $VERSION = '0.4';
+our $VERSION = '0.5';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
@@ -89,7 +89,7 @@ sub taskflow {
                 (my $key = $pattern.'='.$filename.':'.$action) =~ s/\s+/ /g;
                 unless (-e $pid_file or -e $err_file) {
                     if (!exists $data->{$key} or $data->{$key} != $mt){
-                        my $command = $action=~ s/\Q$target_name\E/$filename/gr;
+                        (my $command = $action) =~ s/\Q$target_name\E/$filename/g;
                         $log->info($filename.' -> '.$command); my $buffer;
                         if (my $pid = fork) {
                             # parent - child process pid is available in $pid
@@ -146,7 +146,7 @@ For a complete documentation of `taskflow`,  see its POD.
 
 =head1 VERSION
 
-Version 0.4
+Version 0.5
 
 =cut
 
