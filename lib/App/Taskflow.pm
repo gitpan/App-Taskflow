@@ -1,4 +1,5 @@
 package App::Taskflow;
+use v5.10;
 use POSIX qw(setsid);
 our @EXPORT = qw/usage version taskflow daemonize/;# Symbols to autoexport (:DEFAULT tag)
 use base qw/Exporter/;
@@ -7,7 +8,7 @@ use DBM::Deep;
 use IPC::Cmd qw/run/;
 use autodie;
 
-our $VERSION = '0.6';
+our $VERSION = '0.7';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
@@ -146,7 +147,7 @@ For a complete documentation of `taskflow`,  see its POD.
 
 =head1 VERSION
 
-Version 0.6
+Version 0.7
 
 =cut
 

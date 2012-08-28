@@ -1,5 +1,8 @@
 Revision history for App-Taskflow
 
+0.7 2012-08-28
+    due to using new regex features, restricted to v5.10 and above.
+
 0.6 2012-08-16
     Undeclared dependency on autodie added, report 22959735
 
