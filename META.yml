@@ -1,5 +1,5 @@
 ---
-abstract: 'a file-based taskflow system'
+abstract: 'a light weight file-based taskflow system'
 author:
   - 'Farhad Fouladi <farhad@cpan.org>'
 build_requires:
@@ -20,8 +20,6 @@ no_index:
 requires:
   DBM::Deep: 0
   Getopt::Lucid: 0
-  IPC::Cmd: 0
   Log::Handler: 0
   Test::More: 0
-  autodie: 0
-version: 0.7
+version: 0.8

@@ -40,11 +40,11 @@ taskflow(
 __END__
 =head1 NAME
 
-taskflow - a file based taskflow engine
+taskflow - a light weight file based taskflow engine
 
 =head1 VERSION
 
-Version 0.7
+Version 0.8
 
 =cut
 
@@ -190,20 +190,19 @@ until its completion.
 
 =back
 
-=head1 SEE ALSO
-
+=head1 ACKNOWLEDGEMENTS
+ 
 Ideas for this script are borrowed from a Python script written by
 'Massimo Di Pierro'.
 
-For more sophisticated solutions for similar problem see:
+=head1 SEE ALSO
 
-=over 4
+There are similar solutions in CPAN for managing tasks or workflows. But
+most of them are heavy and need more sophisticated configuration.
 
-=item L<Workflow>
+Some of the other modules:
 
-=item L<Helios>
-
-=back
+L<Workflow>,  L<Helios>
 
 =head1 LICENSE AND COPYRIGHT
 

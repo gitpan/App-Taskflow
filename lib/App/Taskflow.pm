@@ -5,10 +5,9 @@ our @EXPORT = qw/usage version taskflow daemonize/;# Symbols to autoexport (:DEF
 use base qw/Exporter/;
 use Log::Handler;
 use DBM::Deep;
-use IPC::Cmd qw/run/;
-use autodie;
+$|++; # disable buffering on STDOUT - autoflush
 
-our $VERSION = '0.7';
+our $VERSION = '0.8';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
@@ -28,7 +27,7 @@ sub load_config {
     print '-'x10,' loading rules ','-'x10, "\n";
     my $lines = do {   # narrow scope
         local $/;      # Enter file slurp mode localized
-        open my $in_fh, '<', $config_filename;
+        open my $in_fh, '<', $config_filename or "Cannot read '$config_filename': $!\n";
         <$in_fh>;      # slurp whole input file in a run
     };
     for my $line ( split(/\n/, $lines) ) {
@@ -77,7 +76,7 @@ sub taskflow {
             delete $data->{$rule};
             unlink($clear);
         }
-        for my $cfg (@$config){
+        for my $cfg (@$config) {
             next if (!defined $cfg);
             my ($name, $pattern, $dt, $action, $ampersand) = @$cfg;
             for my $filename (glob($pattern)) {
@@ -92,29 +91,32 @@ sub taskflow {
                     if (!exists $data->{$key} or $data->{$key} != $mt){
                         (my $command = $action) =~ s/\Q$target_name\E/$filename/g;
                         $log->info($filename.' -> '.$command); my $buffer;
+                        my $return;
                         if (my $pid = fork) {
                             # parent - child process pid is available in $pid
-                            open my $fh, '>', $pid_file;
+                            open my $fh, '>', $pid_file or die $!;
                             print $fh $pid; # write pid
+                            close $fh;
                             waitpid($pid, 0) unless ($ampersand);
                         } else { # $pid is zero here if defined
                             die "cannot fork: $!" unless defined $pid;
                             # parent process pid is available with getppid
-                            my $return = run( command => $command, verbose => 0, buffer => \$buffer );
-                            if ($buffer) {
-                                open my $fh, '>', $log_file;
-                                print $fh $buffer;
-                            }
-                            $processes{$pid_file} = [$filename, $command, $return];
+                            open STDOUT, '>', $log_file;
+                            open STDERR, '>', $log_file;
+                            $return = system $command;
+                            close STDOUT;
+                            close STDERR;
                         }
+                        $processes{$pid_file} = [$filename, $command, $return];
                     }
                 }
                 my @pids = keys %processes;
-                if ($pid_file ~~ @pids and exists $processes{$pid_file}[2] and $processes{$pid_file}[2] == 1) {
+                if ($pid_file ~~ @pids and exists $processes{$pid_file}[2] and $processes{$pid_file}[2] == 0) {
                     my ($filename, $command, $return) = @{$processes{$pid_file}};
-                    if (!$return){
-                        open my $fh, '>', $err_file;
+                    if ($return){
+                        open my $fh, '>', $err_file or die $!;
                         print $fh $return;
+                        close $fh;
                     }else{
                         $data->{$key}  = $mt;
                         $data->{$name}  = (defined $data->{$name}) ? $data->{$name}.' '.$key : $key;
@@ -138,16 +140,16 @@ sub usage   { system("perldoc $0"); exit 0; }
 __END__
 =head1 NAME
 
-App::Taskflow - a file-based taskflow system
+App::Taskflow - a light weight file-based taskflow system
 
-This module is the helper library for `taskflow`. No user-serviceable parts
-inside. Use `taskflow` only.
+This module is the helper library for I<taskflow>. No user-serviceable
+parts inside. Use I<taskflow> only.
 
-For a complete documentation of `taskflow`,  see its POD.
+For a complete documentation of I<taskflow>,  see its POD.
 
 =head1 VERSION
 
-Version 0.7
+Version 0.8
 
 =cut
 
