@@ -7,13 +7,13 @@ use Log::Handler;
 use DBM::Deep;
 $|++; # disable buffering on STDOUT - autoflush
 
-our $VERSION = '0.8';
+our $VERSION = '0.9';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
-    my $pid = fork;
+    defined(my $pid = fork) or die "Can't fork: $!";
     exit if $pid;
-    setsid;
+    setsid or die "Can't start a new session: $!";
     umask 0;
 }
 
@@ -82,7 +82,7 @@ sub taskflow {
             for my $filename (glob($pattern)) {
                 next if (!$filename);
                 my $mt =  (stat $filename)[9];
-                return if ($mt > time - $dt);
+                next if ($mt > time - $dt);
                 my $pid_file = $filename.".$name.pid";
                 my $log_file = $filename.".$name.out";
                 my $err_file = $filename.".$name.err";
@@ -149,7 +149,7 @@ For a complete documentation of I<taskflow>,  see its POD.
 
 =head1 VERSION
 
-Version 0.8
+Version 0.9
 
 =cut
 

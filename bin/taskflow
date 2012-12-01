@@ -44,7 +44,7 @@ taskflow - a light weight file based taskflow engine
 
 =head1 VERSION
 
-Version 0.8
+Version 0.9
 
 =cut
 
@@ -90,6 +90,10 @@ A rule can be cleaned up with:
 
      taskflow -c rulename
 
+     or
+
+     taskflow --cache rulename
+
 This command creates a file named `.taskflow.rulename.clear`. The next
 running `taskflow` will clear corresponding entries in `taskflow.cache`.
 It causes that the rule will be run again.
@@ -121,14 +125,17 @@ automatically by running `taskflow`.
 
 =head1 taskflow options
 
-    -f <path>       processing and monitoring directory
-    -s <seconds>    the time interval between checks for new files
-    -n <name>       the current filename, defaults to `$0`
-    -x <path>       name of config file ( default:  taskflow.config)
-    -y <path>       name of cache file to use (default: taskflow.cache)
-    -l <path>       name of logfile (default: /var/tmp/taskflow.log)
-    -d              daemonizes `taskflow`
-    -c <rulename>   clears a rule without starting the `taskflow`
+    -f, --folder    <path>       processing and monitoring directory
+    -s, --sleep     <seconds>    the time interval between checks for new files
+    -n, --name      <name>       the current filename, defaults to `$0`
+    -x, --config    <path>       name of config file ( default:  taskflow.config)
+    -y, --cache     <path>       name of cache file to use (default: taskflow.cache)
+    -l, --logfile   <path>       name of logfile (default: /var/tmp/taskflow.log)
+    -d, --daemonize              daemonizes `taskflow`
+    -c, --clear     <rulename>   clears a rule without starting the `taskflow`
+
+    -h, --help                   display this documentation
+    -v, --version                display current version
 
 =head1 `taskflow.config` syntax
 
@@ -144,7 +151,11 @@ here:
 
 =item * `pattern`: pattern of monitoring files
 
-=item * `dt`: time interval (default:1 sec). Only files newer than `dt` seconds will be considered
+=item * `dt`: time interval (default:1 sec). Only files newer than `dt`
+seconds will be considered, time units are as expected (see also
+examples):
+
+    s = seconds, m = minutes, h = hours, d = days, w = weeks
 
 =item * `command`: command to execute matching files (see `pattern`),
 that are created more than `dt` seconds ago and not processed already.
