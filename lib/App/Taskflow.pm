@@ -7,7 +7,7 @@ use Log::Handler;
 use DBM::Deep;
 $|++; # disable buffering on STDOUT - autoflush
 
-our $VERSION = '0.9';
+our $VERSION = '1.0';
 our $re_line = qr/(?<n>\w+):\s*(?<p>.+?)\s*(\[(?<dt>\w+)\]\s*)?:\s*(?<c>.*)\s*(?<a>\&)?/;
 
 sub daemonize {
@@ -149,7 +149,7 @@ For a complete documentation of I<taskflow>,  see its POD.
 
 =head1 VERSION
 
-Version 0.9
+Version 1.0
 
 =cut
 
